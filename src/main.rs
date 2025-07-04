@@ -1,4 +1,4 @@
-use std::fmt;
+use std::{fmt, io::Write};
 
 #[derive(Copy, Clone)]
 enum Op {
@@ -119,16 +119,22 @@ macro_rules! calc {
     };
 }
 
+macro_rules! out {
+    ($arg:tt) => {
+        print!("{}", $arg);
+        std::io::stdout().flush().unwrap();
+    };
+}
+
 fn main() {
-    // 24 / 5.2 * 3 + 2.1 + 3.4 - 3
-    let expr: Expr = calc!(
-        Op::Add,
-        calc!(Op::Sub, num!(3.4), num!(3.0)),
-        calc!(
-            Op::Add,
-            calc!(Op::Mul, calc!(Op::Div, num!(24.0), num!(5.2)), num!(3.0)),
-            num!(2.1)
-        )
-    );
-    println!("{} = {}", expr, expr.val.eval());
+    loop {
+        out!("> ");
+        let mut input: String = String::new();
+        std::io::stdin().read_line(&mut input).unwrap();
+        let input = input.trim();
+	
+	if input == "exit" {
+	    break;
+	}
+    }
 }
